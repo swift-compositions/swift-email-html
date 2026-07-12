@@ -4,7 +4,7 @@
 //
 
 public import Email_Standard
-public import RFC_4122
+public import UUIDs
 
 extension AppleMail.Message {
     /// A failure composing an Apple Mail message.
@@ -13,6 +13,6 @@ extension AppleMail.Message {
         case conversion(Email.ConversionError)
 
         /// The universally-unique message identifier failed to generate.
-        case identifier(RFC_4122.Random.Error)
+        case identifier(Random.Error)
     }
 }

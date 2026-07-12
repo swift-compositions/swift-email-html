@@ -12,6 +12,7 @@
 public import Email_Standard
 public import RFC_4122
 public import RFC_5322
+public import UUIDs
 
 extension AppleMail {
     /// An email message in Apple Mail format.
@@ -87,9 +88,13 @@ extension AppleMail {
         /// - Throws: ``Error`` when the email fails to convert or the
         ///   identifier fails to generate.
         public init(from email: Email) throws(AppleMail.Message.Error) {
+            // The L2 module also declares a `v4()` whose live value
+            // deliberately traps; the typed function reference selects the
+            // L3 CSPRNG binding by its thrown type.
+            let generate: () throws(Random.Error) -> RFC_4122.UUID = RFC_4122.UUID.v4
             let universalUUID: RFC_4122.UUID
             do {
-                universalUUID = try RFC_4122.UUID.v4()
+                universalUUID = try generate()
             } catch {
                 throw .identifier(error)
             }
@@ -107,7 +112,7 @@ extension AppleMail.Message {
         [
             Self.header("Mime-Version", "1.0 (Mac OS X Mail 16.0 \\(3826.700.71\\))"),
             Self.header("X-Apple-Base-Url", "x-msg://1/"),
-            Self.header("X-Universally-Unique-Identifier", String(universalUUID)),
+            Self.header("X-Universally-Unique-Identifier", Swift.String(universalUUID)),
             Self.header("X-Apple-Mail-Remote-Attachments", "YES"),
             Self.header("X-Apple-Windows-Friendly", "1"),
             Self.header("X-Apple-Mail-Signature", ""),
@@ -117,7 +122,7 @@ extension AppleMail.Message {
 
     /// Builds a header from constant tokens, stopping the program on an
     /// invalid constant.
-    private static func header(_ name: String, _ value: String) -> RFC_5322.Header {
+    private static func header(_ name: Swift.String, _ value: Swift.String) -> RFC_5322.Header {
         do {
             return RFC_5322.Header(
                 name: try RFC_5322.Header.Name(name),
@@ -131,8 +136,8 @@ extension AppleMail.Message {
 
 extension AppleMail.Message: CustomStringConvertible {
     /// The rendered `.eml` content.
-    public var description: String {
-        String(message)
+    public var description: Swift.String {
+        Swift.String(message)
     }
 }
 

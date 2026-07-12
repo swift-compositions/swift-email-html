@@ -18,6 +18,7 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/swift-standards/swift-email-standard.git", branch: "main"),
+        .package(url: "https://github.com/swift-foundations/swift-uuids.git", branch: "main"),
         .package(url: "https://github.com/swift-ietf/swift-rfc-4122.git", branch: "main"),
         .package(url: "https://github.com/swift-ietf/swift-rfc-5322.git", branch: "main"),
     ],
@@ -28,6 +29,9 @@ let package = Package(
                 .product(name: "Email Standard", package: "swift-email-standard"),
                 .product(name: "RFC 4122", package: "swift-rfc-4122"),
                 .product(name: "RFC 5322", package: "swift-rfc-5322"),
+                // L3 unifier binding the parameterless RFC_4122.UUID.v4()
+                // to the platform CSPRNG.
+                .product(name: "UUIDs", package: "swift-uuids"),
             ]
         ),
         .testTarget(

@@ -6,6 +6,9 @@
 //  compose model plus the RFC 5322 message vocabulary the formats wrap.
 //
 
+// UUIDs is deliberately NOT re-exported: its re-export chain carries the
+// institute String type, which shadows Swift.String at consumer sites.
+// Consumers needing the CSPRNG v4() or Random.Error import UUIDs directly.
 @_exported public import Email_Standard
 @_exported public import RFC_4122
 @_exported public import RFC_5322

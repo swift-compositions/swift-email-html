@@ -7,6 +7,13 @@ import Testing
 
 @testable import Email_HTML
 
+// MARK: - Fixtures
+
+extension RFC_5322.DateTime {
+    /// 2009-02-13T23:31:30Z — a fixed, timezone-stable test timestamp.
+    static let test = Self(secondsSinceEpoch: 1_234_567_890)
+}
+
 extension AppleMail.Message {
     @Suite
     struct Test {
@@ -23,7 +30,8 @@ extension AppleMail.Message.Test.Unit {
             to: [EmailAddress("recipient@example.com")],
             from: EmailAddress("sender@example.com"),
             subject: "Test Email",
-            body: "Hello, World!"
+            text: "Hello, World!",
+            date: .test
         )
 
         let message = try AppleMail.Message(from: email)
@@ -55,14 +63,15 @@ extension AppleMail.Message.Test.Unit {
             to: [EmailAddress("recipient@example.com")],
             from: EmailAddress("sender@example.com"),
             subject: "Test",
-            body: "Test content"
+            text: "Test content",
+            date: .test
         )
 
         let message = try AppleMail.Message(from: email, universalUUID: customUUID)
 
         #expect(
             message.description.contains(
-                "X-Universally-Unique-Identifier: \(String(customUUID))"
+                "X-Universally-Unique-Identifier: \(Swift.String(customUUID))"
             )
         )
     }
@@ -75,8 +84,9 @@ extension AppleMail.Message.Test.`Edge Case` {
             to: [EmailAddress("to@example.com")],
             from: EmailAddress("sender@example.com"),
             bcc: [EmailAddress("bcc@example.com")],
+            date: .test,
             subject: "Privacy",
-            body: "Body"
+            body: .text("Body")
         )
 
         let message = try AppleMail.Message(from: email)
@@ -91,7 +101,8 @@ extension AppleMail.Message.Test.Integration {
             to: [EmailAddress("recipient@example.com")],
             from: EmailAddress("sender@example.com"),
             subject: "HTML Email",
-            html: "<h1>Hello, World!</h1><p>This is a test.</p>"
+            html: "<h1>Hello, World!</h1><p>This is a test.</p>",
+            date: .test
         )
 
         let message = try AppleMail.Message(from: email)
@@ -110,7 +121,8 @@ extension AppleMail.Message.Test.Integration {
             from: EmailAddress("sender@example.com"),
             subject: "Multipart Email",
             text: "Plain text version",
-            html: "<h1>HTML version</h1>"
+            html: "<h1>HTML version</h1>",
+            date: .test
         )
 
         let message = try AppleMail.Message(from: email)
@@ -133,11 +145,12 @@ extension AppleMail.Message.Test.Integration {
             replyTo: EmailAddress("reply@example.com"),
             cc: [EmailAddress("cc@example.com")],
             bcc: [EmailAddress("bcc@example.com")],
+            date: .test,
             subject: "Complete Email",
-            body: "Test body",
+            body: .text("Test body"),
             additionalHeaders: [
-                .init(name: "X-Custom-Header", value: "custom-value"),
-                .init(name: "X-Priority", value: "1"),
+                try RFC_5322.Header("X-Custom-Header: custom-value"),
+                try RFC_5322.Header("X-Priority: 1"),
             ]
         )
 
@@ -160,7 +173,8 @@ extension AppleMail.Message.Test.Integration {
             to: [EmailAddress("recipient@example.com")],
             from: EmailAddress("sender@example.com"),
             subject: "Test",
-            body: "Test content"
+            text: "Test content",
+            date: .test
         )
 
         let message = try AppleMail.Message(from: email)
