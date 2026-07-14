@@ -10,17 +10,41 @@ let package = Package(
         .tvOS(.v26),
         .watchOS(.v26),
     ],
+    // Still staged under Parked/ (excluded from every target, does not compile
+    // here — pf-html-era surface awaiting an institute port):
+    //
+    //   - Email+HTML.swift  — `Email(to:from:subject:html:)` / `Email.Body.html`
+    //                         convenience inits bridging an HTML view into the
+    //                         RFC 5322 compose model.
+    //   - EmailMarkdown.swift — markdown -> email HTML (needs HTMLMarkdown /
+    //                         HTMLTheme, both retired).
+    //   - EmailHTMLTests.swift, ReadmeVerificationTests.swift — tests of the two
+    //                         files above.
+    //
+    // The email DOCUMENT SHELL is no longer staged: `EmailDocument.swift` and
+    // `BaseStyles.swift` were superseded by the "Email HTML Rendering" target
+    // below and deleted with it.
     products: [
         // Client-facing email rendering over the Email compose model. Live
-        // surface today: the Apple Mail .eml format. The HTML rendering
-        // pipeline is staged under Parked/ pending the HTML-email story.
-        .library(name: "Email HTML", targets: ["Email HTML"])
+        // surface today: the Apple Mail .eml format. Carries no HTML dependency
+        // — keep it that way; the HTML-email surface is a separate opt-in
+        // product below.
+        .library(name: "Email HTML", targets: ["Email HTML"]),
+
+        // The email HTML document shell and its email-safe components
+        // (Email.Document / VStack / Header / Paragraph / Link). Vended as its
+        // own product so a consumer can take the email-HTML surface — and its
+        // HTML-tower resolve closure — WITHOUT it being forced on every
+        // consumer of "Email HTML".
+        .library(name: "Email HTML Rendering", targets: ["Email HTML Rendering"]),
     ],
     dependencies: [
         .package(url: "https://github.com/swift-standards/swift-email-standard.git", branch: "main"),
         .package(url: "https://github.com/swift-foundations/swift-uuids.git", branch: "main"),
         .package(url: "https://github.com/swift-ietf/swift-rfc-4122.git", branch: "main"),
         .package(url: "https://github.com/swift-ietf/swift-rfc-5322.git", branch: "main"),
+        .package(url: "https://github.com/swift-foundations/swift-html.git", branch: "main"),
+        .package(url: "https://github.com/swift-foundations/swift-css.git", branch: "main"),
     ],
     targets: [
         .target(
@@ -34,10 +58,31 @@ let package = Package(
                 .product(name: "UUIDs", package: "swift-uuids"),
             ]
         ),
+        .target(
+            name: "Email HTML Rendering",
+            dependencies: [
+                // The `Email` namespace this target extends with the document
+                // shell and its components.
+                .product(name: "Email Standard", package: "swift-email-standard"),
+                // The HTML umbrella (@_exported: CSS, CSS Theming, Color,
+                // HTML Rendering, HTML Standard, Markdown HTML Rendering, SVG).
+                .product(name: "HTML", package: "swift-html"),
+                // Font / DarkModeColor.theme semantic tokens. Already inside the
+                // HTML umbrella's closure; named directly because this target's
+                // public API mentions its types.
+                .product(name: "CSS Theming", package: "swift-css"),
+            ]
+        ),
         .testTarget(
             name: "Email HTML Tests",
             dependencies: [
                 "Email HTML"
+            ]
+        ),
+        .testTarget(
+            name: "Email HTML Rendering Tests",
+            dependencies: [
+                "Email HTML Rendering"
             ]
         ),
     ]
