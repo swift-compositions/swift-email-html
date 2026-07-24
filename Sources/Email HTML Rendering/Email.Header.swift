@@ -51,7 +51,10 @@ extension Email {
                 .color(_color ?? .text.primary)
                 .padding(bottom: _paddingBottom?.length)
                 .inlineStyle("margin", "0")
-                .inlineStyle("font-family", "ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif")
+                .inlineStyle(
+                    "font-family",
+                    "ui-sans-serif, -apple-system, Helvetica, Arial, sans-serif"
+                )
                 .inlineStyle("font-size", fontSize)
                 .inlineStyle("font-weight", "700")
                 .inlineStyle("line-height", "1.2")
