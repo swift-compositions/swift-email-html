@@ -65,19 +65,33 @@ extension AppleMail {
                 headers.append(header)
             }
 
-            self.message = RFC_5322.Message(
-                from: base.from,
-                to: base.to,
-                cc: base.cc,
-                bcc: base.bcc,
-                replyTo: base.replyTo,
-                date: base.date,
-                subject: base.subject,
-                messageId: base.messageId,
-                body: base.body,
-                additionalHeaders: headers,
-                mimeVersion: base.mimeVersion
-            )
+            // Re-composing the message re-runs RFC 5322's field-body injection
+            // guard (swift-rfc-5322 fc50e03), which rejects CRLF and non-ASCII
+            // in the subject and MIME version. The guard is the reason this
+            // initializer throws; surfacing its error is the point, not a
+            // formality. `Email.ConversionError` already carries the RFC 5322
+            // message error, so the failure travels the existing typed channel
+            // and no new case is minted.
+            let composed: RFC_5322.Message
+            do throws(RFC_5322.Message.Error) {
+                composed = try RFC_5322.Message(
+                    from: base.from,
+                    to: base.to,
+                    cc: base.cc,
+                    bcc: base.bcc,
+                    replyTo: base.replyTo,
+                    date: base.date,
+                    subject: base.subject,
+                    messageId: base.messageId,
+                    body: base.body,
+                    additionalHeaders: headers,
+                    mimeVersion: base.mimeVersion
+                )
+            } catch {
+                throw .conversion(.message(error))
+            }
+
+            self.message = composed
             self.universalUUID = universalUUID
         }
 
