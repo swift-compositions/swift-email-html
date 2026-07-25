@@ -55,6 +55,34 @@ let message = try AppleMail.Message(from: email)
 let emlContent = message.description
 ```
 
+## Error Handling
+
+`AppleMail.Message(from:)` throws a typed `AppleMail.Message.Error`:
+
+```
+AppleMail.Message.Error
+├─ conversion(Email.ConversionError)   // the email failed to convert into an RFC 5322 message
+└─ identifier(Random.Error)            // the message identifier failed to generate
+```
+
+Because the initializer declares `throws(AppleMail.Message.Error)`, the catch
+can be exhaustive over the enum:
+
+```swift
+import Email_HTML
+
+do {
+    let message = try AppleMail.Message(from: email)
+    let emlContent = message.description
+} catch .conversion(let conversionError) {
+    // The email failed to convert into an RFC 5322 message.
+    print("Conversion failed: \(conversionError)")
+} catch .identifier(let randomError) {
+    // The universally-unique message identifier failed to generate.
+    print("Identifier generation failed: \(randomError)")
+}
+```
+
 ## License
 
 Licensed under the [Apache License, Version 2.0](LICENSE.md).
