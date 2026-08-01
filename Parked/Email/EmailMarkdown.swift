@@ -234,7 +234,7 @@ extension Visitor {
     @HTMLBuilder
     private mutating func render(
         tag: HTMLTag,
-        cells: some Sequence<Markdown.Table.Cell>,
+        cells: some Swift.Sequence<Markdown.Table.Cell>,
         columnAlignments: [Markdown.Table.ColumnAlignment?]
     ) -> AnyHTML {
         var column = 0
