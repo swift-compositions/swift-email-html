@@ -10,20 +10,6 @@ let package = Package(
         .tvOS(.v26),
         .watchOS(.v26),
     ],
-    // Still staged under Parked/ (excluded from every target, does not compile
-    // here — pf-html-era surface awaiting an institute port):
-    //
-    //   - Email+HTML.swift  — `Email(to:from:subject:html:)` / `Email.Body.html`
-    //                         convenience inits bridging an HTML view into the
-    //                         RFC 5322 compose model.
-    //   - EmailMarkdown.swift — markdown -> email HTML (needs HTMLMarkdown /
-    //                         HTMLTheme, both retired).
-    //   - EmailHTMLTests.swift, ReadmeVerificationTests.swift — tests of the two
-    //                         files above.
-    //
-    // The email DOCUMENT SHELL is no longer staged: `EmailDocument.swift` and
-    // `BaseStyles.swift` were superseded by the "Email HTML Rendering" target
-    // below and deleted with it.
     products: [
         // Client-facing email rendering over the Email compose model. Live
         // surface today: the Apple Mail .eml format. Carries no HTML dependency
