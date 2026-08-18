@@ -5,7 +5,6 @@
 
 public import Email_Standard
 public import HTML
-
 @_spi(DynamicHTML) import HTML_Rendering_Core
 
 extension Email {
