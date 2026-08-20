@@ -19,7 +19,7 @@ extension Email {
     /// Styled as an inline-block button rather than with a `button` element:
     /// email clients do not run JavaScript and only anchors reliably navigate.
     public struct Link<Label: HTML.View>: HTML.View {
-        public let href: Href?
+        public let href: HTML.Href.Attribute?
         public let label: Label
 
         var _color: DarkModeColor?
@@ -27,7 +27,7 @@ extension Email {
         var _paddingBottom: Email.Spacing?
 
         public init(
-            href: Href?,
+            href: HTML.Href.Attribute?,
             @HTML.Builder label: () -> Label
         ) {
             self.href = href
