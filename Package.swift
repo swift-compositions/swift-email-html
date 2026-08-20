@@ -1,14 +1,14 @@
-// swift-tools-version: 6.3.3
+// swift-tools-version: 6.4
 
 import PackageDescription
 
 let package = Package(
     name: "swift-email-html",
     platforms: [
-        .iOS(.v26),
-        .macOS(.v26),
-        .tvOS(.v26),
-        .watchOS(.v26),
+        .iOS(.v27),
+        .macOS(.v27),
+        .tvOS(.v27),
+        .watchOS(.v27),
     ],
     products: [
         // Client-facing email rendering over the Email compose model. Live
@@ -25,7 +25,10 @@ let package = Package(
         .library(name: "Email HTML Rendering", targets: ["Email HTML Rendering"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/swift-standards/swift-email-standard.git", branch: "main"),
+        .package(
+            url: "https://github.com/swift-standards/swift-email-standard.git",
+            branch: "main"
+        ),
         .package(url: "https://github.com/swift-foundations/swift-uuids.git", branch: "main"),
         .package(url: "https://github.com/swift-ietf/swift-rfc-4122.git", branch: "main"),
         .package(url: "https://github.com/swift-ietf/swift-rfc-5322.git", branch: "main"),
