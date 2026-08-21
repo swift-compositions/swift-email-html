@@ -1,54 +1,16 @@
-//
-//  AppleMail.Message.swift
-//  swift-email-html — Email HTML
-//
-//  Absorbed from swift-email's park (coenttb-ectomy 2026-07-12) and repaired
-//  against the current RFC 5322 surface per the park's drift map: typed
-//  Header.Name keys, date-before-subject initializer order, and the String
-//  conversion in place of the retired render method. The universally-unique
-//  identifier moved off Foundation onto RFC 4122.
-//
-
 public import Email_Standard
 public import RFC_4122
 public import RFC_5322
 import UUIDs
 
 extension AppleMail {
-    /// An email message in Apple Mail format.
-    ///
-    /// Wraps an RFC 5322 message with Apple-specific headers for
-    /// compatibility with Apple Mail applications.
-    ///
-    /// ## Example
-    ///
-    /// ```swift
-    /// let email = try Email(
-    ///     to: [EmailAddress("recipient@example.com")],
-    ///     from: EmailAddress("sender@example.com"),
-    ///     subject: "Hello",
-    ///     body: "Hello, World!"
-    /// )
-    ///
-    /// let message = try AppleMail.Message(from: email)
-    /// let emlContent = message.description
-    /// ```
+
     public struct Message {
-        /// The wrapped RFC 5322 message, Apple headers included.
+
         let message: RFC_5322.Message
 
-        /// The value of the `X-Universally-Unique-Identifier` header.
         let universalUUID: RFC_4122.UUID
 
-        /// Creates an Apple Mail message from an email.
-        ///
-        /// Adds the Apple-specific headers to the email's standard RFC 5322
-        /// message.
-        ///
-        /// - Parameters:
-        ///   - email: The email to convert.
-        ///   - universalUUID: The `X-Universally-Unique-Identifier` header value.
-        /// - Throws: ``Error`` when the email fails to convert.
         public init(
             from email: Email,
             universalUUID: RFC_4122.UUID
@@ -65,13 +27,6 @@ extension AppleMail {
                 headers.append(header)
             }
 
-            // Re-composing the message re-runs RFC 5322's field-body injection
-            // guard (swift-rfc-5322 fc50e03), which rejects CRLF and non-ASCII
-            // in the subject and MIME version. The guard is the reason this
-            // initializer throws; surfacing its error is the point, not a
-            // formality. `Email.ConversionError` already carries the RFC 5322
-            // message error, so the failure travels the existing typed channel
-            // and no new case is minted.
             let composed: RFC_5322.Message
             do throws(RFC_5322.Message.Error) {
                 composed = try RFC_5322.Message(
@@ -95,16 +50,8 @@ extension AppleMail {
             self.universalUUID = universalUUID
         }
 
-        /// Creates an Apple Mail message from an email, generating a fresh
-        /// universally-unique identifier.
-        ///
-        /// - Parameter email: The email to convert.
-        /// - Throws: ``Error`` when the email fails to convert or the
-        ///   identifier fails to generate.
         public init(from email: Email) throws(AppleMail.Message.Error) {
-            // The L2 module also declares a `v4()` whose live value
-            // deliberately traps; the typed function reference selects the
-            // L3 CSPRNG binding by its thrown type.
+
             let generate: () throws(Random.Error) -> RFC_4122.UUID = RFC_4122.UUID.v4
             let universalUUID: RFC_4122.UUID
             do {
@@ -118,10 +65,7 @@ extension AppleMail {
 }
 
 extension AppleMail.Message {
-    /// The Apple-specific headers, with the given identifier.
-    ///
-    /// Header names and constant values are spec-constant vectors; failing
-    /// to construct one is a programmer error and stops the program.
+
     static func headers(universalUUID: RFC_4122.UUID) -> [RFC_5322.Header] {
         [
             Self.header("Mime-Version", "1.0 (Mac OS X Mail 16.0 \\(3826.700.71\\))"),
@@ -134,8 +78,6 @@ extension AppleMail.Message {
         ]
     }
 
-    /// Builds a header from constant tokens, stopping the program on an
-    /// invalid constant.
     private static func header(_ name: Swift.String, _ value: Swift.String) -> RFC_5322.Header {
         do {
             return RFC_5322.Header(
@@ -149,14 +91,14 @@ extension AppleMail.Message {
 }
 
 extension AppleMail.Message: CustomStringConvertible {
-    /// The rendered `.eml` content.
+
     public var description: Swift.String {
         Swift.String(message)
     }
 }
 
 extension AppleMail.Message {
-    /// The underlying RFC 5322 message.
+
     public var rfc5322Message: RFC_5322.Message {
         message
     }

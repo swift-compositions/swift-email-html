@@ -1,16 +1,9 @@
-//
-//  AppleMail.Message Tests.swift
-//  swift-email-html — Email HTML Tests
-//
-
 import Testing
 
 @testable import Email_HTML
 
-// MARK: - Fixtures
-
 extension RFC_5322.DateTime {
-    /// 2009-02-13T23:31:30Z — a fixed, timezone-stable test timestamp.
+
     static let test = Self(secondsSinceEpoch: 1_234_567_890)
 }
 
@@ -37,14 +30,12 @@ extension AppleMail.Message.Test.Unit {
         let message = try AppleMail.Message(from: email)
         let emlContent = message.description
 
-        // RFC 5322 headers.
         #expect(emlContent.contains("From: sender@example.com"))
         #expect(emlContent.contains("To: recipient@example.com"))
         #expect(emlContent.contains("Subject: Test Email"))
         #expect(emlContent.contains("Date: "))
         #expect(emlContent.contains("Message-ID: "))
 
-        // Apple-specific headers.
         #expect(emlContent.contains("Mime-Version: 1.0 (Mac OS X Mail 16.0 \\(3826.700.71\\))"))
         #expect(emlContent.contains("X-Apple-Base-Url: x-msg://1/"))
         #expect(emlContent.contains("X-Universally-Unique-Identifier: "))
@@ -52,7 +43,6 @@ extension AppleMail.Message.Test.Unit {
         #expect(emlContent.contains("X-Apple-Windows-Friendly: 1"))
         #expect(emlContent.contains("X-Uniform-Type-Identifier: com.apple.mail-draft"))
 
-        // Body content.
         #expect(emlContent.contains("Hello, World!"))
     }
 
@@ -186,7 +176,7 @@ extension AppleMail.Message.Test.Integration {
         #expect(emlContent.contains("Date: "))
         #expect(emlContent.contains("Message-ID: "))
         #expect(emlContent.contains("Content-Type: "))
-        // Headers/body separator and CRLF line endings.
+
         #expect(emlContent.contains("\r\n\r\n"))
         #expect(emlContent.contains("\r\n"))
     }

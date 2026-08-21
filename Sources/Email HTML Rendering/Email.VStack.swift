@@ -1,24 +1,8 @@
-//
-//  Email.VStack.swift
-//  swift-email-html — Email HTML Rendering
-//
-
 public import Email_Standard
 public import HTML
 
 extension Email {
-    /// Email-safe vertical flow.
-    ///
-    /// Deliberately NOT flexbox. `display: flex` is unsupported or partially
-    /// supported across the major email clients (notably Outlook's Word
-    /// rendering engine), so this stacks its children with ordinary block flow
-    /// inside a table cell — the one layout every client agrees on. Alignment
-    /// is expressed with `text-align`, which inherits into the block children
-    /// rather than requiring a cross-axis model.
-    ///
-    /// This is why the email components exist as their own target rather than
-    /// reusing `swift-webpage`: those components are web-shaped (flexbox, grid,
-    /// pseudo-selectors) and are not email-safe.
+
     public struct VStack<Content: HTML.View>: HTML.View {
         public let alignment: Alignment
         public let content: Content
@@ -34,7 +18,6 @@ extension Email {
             self.content = content()
         }
 
-        /// Sets the block padding.
         public func padding(
             vertical: Email.Spacing? = nil,
             horizontal: Email.Spacing? = nil
