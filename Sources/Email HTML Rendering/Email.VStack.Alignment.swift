@@ -4,7 +4,7 @@
 //
 
 public import Email_Standard
-public import HTML
+import HTML
 
 extension Email.VStack {
     /// Horizontal alignment of the stacked children.

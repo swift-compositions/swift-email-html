@@ -12,7 +12,7 @@
 public import Email_Standard
 public import RFC_4122
 public import RFC_5322
-public import UUIDs
+import UUIDs
 
 extension AppleMail {
     /// An email message in Apple Mail format.

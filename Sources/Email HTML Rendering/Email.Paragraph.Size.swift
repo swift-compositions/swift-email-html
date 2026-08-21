@@ -5,7 +5,7 @@
 
 public import CSS_Theming
 public import Email_Standard
-public import HTML
+import HTML
 
 extension Email.Paragraph {
     /// The paragraph size variant.

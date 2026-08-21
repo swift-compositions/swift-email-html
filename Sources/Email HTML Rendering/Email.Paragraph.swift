@@ -5,7 +5,7 @@
 
 public import CSS_Theming
 public import Email_Standard
-public import HTML
+import HTML
 
 extension Email {
     /// A paragraph with email-safe styling and a size variant.
