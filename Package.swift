@@ -21,11 +21,11 @@ let package = Package(
             url: "https://github.com/swift-standards/swift-email-standard.git",
             branch: "main"
         ),
-        .package(url: "https://github.com/swift-foundations/swift-uuids.git", branch: "main"),
+        .package(url: "https://github.com/swift-compositions/swift-uuids.git", branch: "main"),
         .package(url: "https://github.com/swift-ietf/swift-rfc-4122.git", branch: "main"),
         .package(url: "https://github.com/swift-ietf/swift-rfc-5322.git", branch: "main"),
-        .package(url: "https://github.com/swift-foundations/swift-html.git", branch: "main"),
-        .package(url: "https://github.com/swift-foundations/swift-css.git", branch: "main"),
+        .package(url: "https://github.com/swift-compositions/swift-html.git", branch: "main"),
+        .package(url: "https://github.com/swift-compositions/swift-css.git", branch: "main"),
     ],
     targets: [
         .target(

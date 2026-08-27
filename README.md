@@ -2,7 +2,7 @@
 
 ![Development Status](https://img.shields.io/badge/status-pre--cutover_integration_package-orange.svg)
 
-HTML rendering for [swift-email](https://github.com/swift-foundations/swift-email).
+HTML rendering for [swift-email](https://github.com/swift-compositions/swift-email).
 
 > **Status: pre-cutover integration package.** This package is the home for
 > swift-email's client-facing rendering surface. The live surface today is
@@ -26,7 +26,7 @@ import is self-contained.
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/swift-foundations/swift-email-html.git", branch: "main")
+    .package(url: "https://github.com/swift-compositions/swift-email-html.git", branch: "main")
 ]
 ```
 
