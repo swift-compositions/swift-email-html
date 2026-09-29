@@ -1,14 +1,8 @@
 # swift-email-html
 
-![Development Status](https://img.shields.io/badge/status-pre--cutover_integration_package-orange.svg)
+![Development Status](https://img.shields.io/badge/status-active_development-blue.svg)
 
 HTML rendering for [swift-email](https://github.com/swift-compositions/swift-email).
-
-> **Status: pre-cutover integration package.** This package is the home for
-> swift-email's client-facing rendering surface. The live surface today is
-> the Apple Mail `.eml` format; the HTML rendering pipeline itself is staged
-> under `Parked/` and does not compile until its dependencies exist in the
-> institute HTML stack (see `Parked/Email/README.md`).
 
 ## Overview
 
@@ -19,7 +13,14 @@ HTML rendering for [swift-email](https://github.com/swift-compositions/swift-ema
   renders the complete `.eml` content. Conversion failures throw a typed
   error; a fresh RFC 4122 identifier is generated when none is supplied.
 
-The Email compose model and the RFC 5322 vocabulary are re-exported, so the
+`import Email_HTML_Rendering` provides the email-safe HTML component
+vocabulary — `Email.Document`, `Email.VStack`, `Email.Header`,
+`Email.Paragraph`, `Email.Link`, `Email.Spacing` — built on
+[swift-html](https://github.com/swift-compositions/swift-html) and the
+CSS theming colors, so a message body is written as HTML views and rendered
+into table-based, inline-styled markup.
+
+The Email compose model and the RFC 5322 vocabulary are re-exported, so each
 import is self-contained.
 
 ## Installation
@@ -34,7 +35,8 @@ dependencies: [
 .target(
     name: "YourTarget",
     dependencies: [
-        .product(name: "Email HTML", package: "swift-email-html")
+        .product(name: "Email HTML", package: "swift-email-html"),
+        .product(name: "Email HTML Rendering", package: "swift-email-html"),
     ]
 )
 ```
@@ -48,11 +50,36 @@ let email = try Email(
     to: [EmailAddress("recipient@example.com")],
     from: EmailAddress("sender@example.com"),
     subject: "Hello",
-    body: "Hello, World!"
+    text: "Hello, World!",
+    date: RFC_5322.DateTime(secondsSinceEpoch: 1_234_567_890)
 )
 
 let message = try AppleMail.Message(from: email)
 let emlContent = message.description
+```
+
+Composing the body as HTML instead:
+
+```swift
+import Email_HTML_Rendering
+
+let document = Email.Document(preheader: "Verify your email address") {
+    tr {
+        td {
+            Email.VStack(alignment: .start) {
+                Email.Header(3) { "Verify your email address" }
+
+                Email.Paragraph { "Please confirm this is your email address." }
+                    .padding(bottom: .extraSmall)
+
+                Email.Link(href: .init(value: "https://example.com/verify")) {
+                    "Verify email address"
+                }
+            }
+            .padding(vertical: .small, horizontal: .medium)
+        }
+    }
+}
 ```
 
 ## Error Handling

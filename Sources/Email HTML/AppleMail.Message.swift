@@ -1,6 +1,8 @@
 public import Email_Standard
 public import RFC_4122
 public import RFC_5322
+import Binary
+import RFC_5322_Coder
 import UUIDs
 
 extension AppleMail {
@@ -40,7 +42,7 @@ extension AppleMail {
                     messageId: base.messageId,
                     body: base.body,
                     additionalHeaders: headers,
-                    mimeVersion: base.mimeVersion
+                    mimeVersion: Self.mimeVersion
                 )
             } catch {
                 throw .conversion(.message(error))
@@ -66,9 +68,10 @@ extension AppleMail {
 
 extension AppleMail.Message {
 
+    static let mimeVersion: Swift.String = "1.0 (Mac OS X Mail 16.0 \\(3826.700.71\\))"
+
     static func headers(universalUUID: RFC_4122.UUID) -> [RFC_5322.Header] {
         [
-            Self.header("Mime-Version", "1.0 (Mac OS X Mail 16.0 \\(3826.700.71\\))"),
             Self.header("X-Apple-Base-Url", "x-msg://1/"),
             Self.header("X-Universally-Unique-Identifier", Swift.String(universalUUID)),
             Self.header("X-Apple-Mail-Remote-Attachments", "YES"),

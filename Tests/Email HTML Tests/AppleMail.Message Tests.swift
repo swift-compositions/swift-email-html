@@ -36,7 +36,7 @@ extension AppleMail.Message.Test.Unit {
         #expect(emlContent.contains("Date: "))
         #expect(emlContent.contains("Message-ID: "))
 
-        #expect(emlContent.contains("Mime-Version: 1.0 (Mac OS X Mail 16.0 \\(3826.700.71\\))"))
+        #expect(emlContent.contains("MIME-Version: 1.0 (Mac OS X Mail 16.0 \\(3826.700.71\\))"))
         #expect(emlContent.contains("X-Apple-Base-Url: x-msg://1/"))
         #expect(emlContent.contains("X-Universally-Unique-Identifier: "))
         #expect(emlContent.contains("X-Apple-Mail-Remote-Attachments: YES"))
