@@ -1,3 +1,4 @@
+import EmailAddress_Standard
 import Testing
 
 @testable import Email_HTML
@@ -20,8 +21,8 @@ extension AppleMail.Message.Test.Unit {
     @Test
     func `message from a simple email carries RFC 5322 and Apple headers`() throws {
         let email = try Email(
-            to: [EmailAddress("recipient@example.com")],
-            from: EmailAddress("sender@example.com"),
+            to: [try emailAddress(localPart: "recipient", domain: "example.com")],
+            from: try emailAddress(localPart: "sender", domain: "example.com"),
             subject: "Test Email",
             text: "Hello, World!",
             date: .test
@@ -50,8 +51,8 @@ extension AppleMail.Message.Test.Unit {
     func `custom universal identifier lands in the Apple header`() throws {
         let customUUID = try RFC_4122.UUID("12345678-1234-1234-1234-123456789ABC")
         let email = try Email(
-            to: [EmailAddress("recipient@example.com")],
-            from: EmailAddress("sender@example.com"),
+            to: [try emailAddress(localPart: "recipient", domain: "example.com")],
+            from: try emailAddress(localPart: "sender", domain: "example.com"),
             subject: "Test",
             text: "Test content",
             date: .test
@@ -71,9 +72,9 @@ extension AppleMail.Message.Test.`Edge Case` {
     @Test
     func `blind-carbon-copy recipients never render into the message`() throws {
         let email = try Email(
-            to: [EmailAddress("to@example.com")],
-            from: EmailAddress("sender@example.com"),
-            bcc: [EmailAddress("bcc@example.com")],
+            to: [try emailAddress(localPart: "to", domain: "example.com")],
+            from: try emailAddress(localPart: "sender", domain: "example.com"),
+            bcc: [try emailAddress(localPart: "bcc", domain: "example.com")],
             date: .test,
             subject: "Privacy",
             body: .text("Body")
@@ -88,8 +89,8 @@ extension AppleMail.Message.Test.Integration {
     @Test
     func `HTML content renders with the text-html content type`() throws {
         let email = try Email(
-            to: [EmailAddress("recipient@example.com")],
-            from: EmailAddress("sender@example.com"),
+            to: [try emailAddress(localPart: "recipient", domain: "example.com")],
+            from: try emailAddress(localPart: "sender", domain: "example.com"),
             subject: "HTML Email",
             html: "<h1>Hello, World!</h1><p>This is a test.</p>",
             date: .test
@@ -107,8 +108,8 @@ extension AppleMail.Message.Test.Integration {
     @Test
     func `text and HTML parts render as multipart alternative`() throws {
         let email = try Email(
-            to: [EmailAddress("recipient@example.com")],
-            from: EmailAddress("sender@example.com"),
+            to: [try emailAddress(localPart: "recipient", domain: "example.com")],
+            from: try emailAddress(localPart: "sender", domain: "example.com"),
             subject: "Multipart Email",
             text: "Plain text version",
             html: "<h1>HTML version</h1>",
@@ -128,13 +129,13 @@ extension AppleMail.Message.Test.Integration {
     func `all email fields and custom headers survive the Apple wrapping`() throws {
         let email = try Email(
             to: [
-                EmailAddress("to1@example.com"),
-                EmailAddress("to2@example.com"),
+                try emailAddress(localPart: "to1", domain: "example.com"),
+                try emailAddress(localPart: "to2", domain: "example.com"),
             ],
-            from: EmailAddress("sender@example.com"),
-            replyTo: EmailAddress("reply@example.com"),
-            cc: [EmailAddress("cc@example.com")],
-            bcc: [EmailAddress("bcc@example.com")],
+            from: try emailAddress(localPart: "sender", domain: "example.com"),
+            replyTo: try emailAddress(localPart: "reply", domain: "example.com"),
+            cc: [try emailAddress(localPart: "cc", domain: "example.com")],
+            bcc: [try emailAddress(localPart: "bcc", domain: "example.com")],
             date: .test,
             subject: "Complete Email",
             body: .text("Test body"),
@@ -160,8 +161,8 @@ extension AppleMail.Message.Test.Integration {
     @Test
     func `rendered output is a structurally valid eml message`() throws {
         let email = try Email(
-            to: [EmailAddress("recipient@example.com")],
-            from: EmailAddress("sender@example.com"),
+            to: [try emailAddress(localPart: "recipient", domain: "example.com")],
+            from: try emailAddress(localPart: "sender", domain: "example.com"),
             subject: "Test",
             text: "Test content",
             date: .test

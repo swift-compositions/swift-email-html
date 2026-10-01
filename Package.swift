@@ -21,8 +21,11 @@ let package = Package(
         ),
         .package(url: "https://github.com/swift-compositions/swift-uuids.git", branch: "main"),
         .package(url: "https://github.com/swift-ietf/swift-rfc-4122.git", branch: "main"),
+        .package(url: "https://github.com/swift-standards/swift-emailaddress-standard.git", branch: "main"),
+        .package(url: "https://github.com/swift-ietf/swift-rfc-1123.git", branch: "main"),
         .package(url: "https://github.com/swift-ietf/swift-rfc-5322.git", branch: "main"),
         .package(url: "https://github.com/swift-ietf/swift-rfc-5322-coder.git", branch: "main"),
+        .package(url: "https://github.com/swift-ietf/swift-rfc-6531.git", branch: "main"),
         .package(url: "https://github.com/swift-compositions/swift-html.git", branch: "main"),
         .package(
             url: "https://github.com/swift-compositions/swift-html-render.git",
@@ -81,7 +84,10 @@ let package = Package(
         .testTarget(
             name: "Email HTML Tests",
             dependencies: [
-                "Email HTML"
+                "Email HTML",
+                .product(name: "EmailAddress Standard", package: "swift-emailaddress-standard"),
+                .product(name: "RFC 1123", package: "swift-rfc-1123"),
+                .product(name: "RFC 6531", package: "swift-rfc-6531"),
             ]
         ),
         .testTarget(
