@@ -55,6 +55,7 @@ let package = Package(
         .package(url: "https://github.com/swift-atoms/swift-text.git", branch: "main", traits: ["Byte", "Casing"]),
         .package(url: "https://github.com/swift-atoms/swift-time.git", branch: "main", traits: ["Affine"]),
         .package(url: "https://github.com/swift-atoms/swift-translation.git", branch: "main", traits: ["Affine"]),
+        .package(url: "https://github.com/swift-atoms/swift-terminal.git", branch: "main", traits: ["Input"]),
     ],
     targets: [
         .target(
