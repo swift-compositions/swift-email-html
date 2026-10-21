@@ -1,7 +1,7 @@
+import Binary
 public import Email_Standard
 public import RFC_4122
 public import RFC_5322
-import Binary
 import RFC_5322_Coder
 import UUIDs
 
