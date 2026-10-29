@@ -15,7 +15,7 @@ let package = Package(
         .library(name: "Email HTML Rendering", targets: ["Email HTML Rendering"]),
     ],
     traits: [
-        .trait(name: "EmailHTMLRendering", description: "Email HTML Rendering and the dependencies only it needs"),
+        .trait(name: "EmailHTMLRendering", description: "Email HTML Rendering and the dependencies only it needs")
     ],
     dependencies: [
         .package(
