@@ -14,6 +14,9 @@ let package = Package(
         .library(name: "Email HTML", targets: ["Email HTML"]),
         .library(name: "Email HTML Rendering", targets: ["Email HTML Rendering"]),
     ],
+    traits: [
+        .trait(name: "EmailHTMLRendering", description: "Email HTML Rendering and the dependencies only it needs"),
+    ],
     dependencies: [
         .package(
             url: "https://github.com/swift-standards/swift-email-standard.git",
@@ -63,9 +66,6 @@ let package = Package(
         .package(url: "https://github.com/swift-atoms/swift-time.git", branch: "main", traits: ["Affine"]),
         .package(url: "https://github.com/swift-atoms/swift-translation.git", branch: "main", traits: ["Affine"]),
         .package(url: "https://github.com/swift-atoms/swift-terminal.git", branch: "main", traits: ["Input"]),
-    ],
-    traits: [
-        .trait(name: "EmailHTMLRendering", description: "Email HTML Rendering and the dependencies only it needs"),
     ],
     targets: [
         .target(
