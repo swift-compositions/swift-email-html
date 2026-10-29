@@ -1,20 +1,22 @@
-public import CSS_Theming
-public import Email_Standard
-import HTML
+#if EmailHTMLRendering
+    public import CSS_Theming
+    public import Email_Standard
+    import HTML
 
-extension Email.Paragraph {
+    extension Email.Paragraph {
 
-    public enum Size: Sendable, Hashable, CaseIterable {
+        public enum Size: Sendable, Hashable, CaseIterable {
 
-        case regular
+            case regular
 
-        case small
+            case small
 
-        public var font: CSS_Theming.Font {
-            switch self {
-            case .regular: .body
-            case .small: .footnote
+            public var font: CSS_Theming.Font {
+                switch self {
+                case .regular: .body
+                case .small: .footnote
+                }
             }
         }
     }
-}
+#endif

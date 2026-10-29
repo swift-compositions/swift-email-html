@@ -64,6 +64,9 @@ let package = Package(
         .package(url: "https://github.com/swift-atoms/swift-translation.git", branch: "main", traits: ["Affine"]),
         .package(url: "https://github.com/swift-atoms/swift-terminal.git", branch: "main", traits: ["Input"]),
     ],
+    traits: [
+        .trait(name: "EmailHTMLRendering", description: "Email HTML Rendering and the dependencies only it needs"),
+    ],
     targets: [
         .target(
             name: "Email HTML",
@@ -80,9 +83,9 @@ let package = Package(
             name: "Email HTML Rendering",
             dependencies: [
                 .product(name: "Email Standard", package: "swift-email-standard"),
-                .product(name: "HTML", package: "swift-html"),
-                .product(name: "HTML Rendering Core", package: "swift-html-render"),
-                .product(name: "CSS Theming", package: "swift-css"),
+                .product(name: "HTML", package: "swift-html", condition: .when(traits: ["EmailHTMLRendering"])),
+                .product(name: "HTML Rendering Core", package: "swift-html-render", condition: .when(traits: ["EmailHTMLRendering"])),
+                .product(name: "CSS Theming", package: "swift-css", condition: .when(traits: ["EmailHTMLRendering"])),
             ]
         ),
         .testTarget(

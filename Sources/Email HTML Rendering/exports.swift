@@ -1,2 +1,4 @@
-@_exported public import Email_Standard
-@_exported public import HTML
+#if EmailHTMLRendering
+    @_exported public import Email_Standard
+    @_exported public import HTML
+#endif
