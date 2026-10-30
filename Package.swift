@@ -26,8 +26,7 @@ let package = Package(
         .package(url: "https://github.com/swift-ietf/swift-rfc-4122.git", branch: "main"),
         .package(url: "https://github.com/swift-standards/swift-emailaddress-standard.git", branch: "main"),
         .package(url: "https://github.com/swift-ietf/swift-rfc-1123.git", branch: "main"),
-        .package(url: "https://github.com/swift-ietf/swift-rfc-5322.git", branch: "main"),
-        .package(url: "https://github.com/swift-ietf/swift-rfc-5322-coder.git", branch: "main"),
+        .package(url: "https://github.com/swift-ietf/swift-rfc-5322.git", branch: "main", traits: ["Coder"]),
         .package(url: "https://github.com/swift-ietf/swift-rfc-6531.git", branch: "main"),
         .package(url: "https://github.com/swift-compositions/swift-html.git", branch: "main"),
         .package(
@@ -74,7 +73,6 @@ let package = Package(
                 .product(name: "Email Standard", package: "swift-email-standard"),
                 .product(name: "RFC 4122", package: "swift-rfc-4122"),
                 .product(name: "RFC 5322", package: "swift-rfc-5322"),
-                .product(name: "RFC 5322 Coder", package: "swift-rfc-5322-coder"),
                 .product(name: "UUIDs", package: "swift-uuids"),
                 .product(name: "Binary", package: "swift-binary"),
             ]
