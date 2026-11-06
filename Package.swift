@@ -90,7 +90,7 @@ let package = Package(
         .testTarget(
             name: "Email HTML Tests",
             dependencies: [
-                "Email HTML",
+                .target(name: "Email HTML"),
                 .product(name: "EmailAddress Standard", package: "swift-emailaddress-standard"),
                 .product(name: "RFC 1123", package: "swift-rfc-1123"),
                 .product(name: "RFC 6531", package: "swift-rfc-6531"),
@@ -99,7 +99,7 @@ let package = Package(
         .testTarget(
             name: "Email HTML Rendering Tests",
             dependencies: [
-                "Email HTML Rendering"
+                .target(name: "Email HTML Rendering")
             ]
         ),
     ],
