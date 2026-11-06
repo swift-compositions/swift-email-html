@@ -2,7 +2,9 @@ import Testing
 
 @testable import Email_HTML_Rendering
 
-extension Email {
+enum `Email Tests` {}
+
+extension `Email Tests` {
     @Suite
     struct `Document Test` {
         @Suite struct Unit {}
@@ -10,7 +12,7 @@ extension Email {
     }
 }
 
-extension Email.`Document Test` {
+extension `Email Tests`.`Document Test` {
 
     static func render() throws -> String {
         let document = Email.Document(preheader: "Verify your email address") {
@@ -43,10 +45,10 @@ extension Email.`Document Test` {
     }
 }
 
-extension Email.`Document Test`.Unit {
+extension `Email Tests`.`Document Test`.Unit {
     @Test
     func `emits a full document shell`() throws {
-        let html = try Email.`Document Test`.render()
+        let html = try `Email Tests`.`Document Test`.render()
 
         #expect(html.contains("<!doctype html>"))
         #expect(html.contains("<html>"))
@@ -56,7 +58,7 @@ extension Email.`Document Test`.Unit {
 
     @Test
     func `hoists collected styles into a head style block`() throws {
-        let html = try Email.`Document Test`.render()
+        let html = try `Email Tests`.`Document Test`.render()
 
         let style = try #require(html.firstRange(of: "<style>"))
         let headClose = try #require(html.firstRange(of: "</head>"))
@@ -68,7 +70,7 @@ extension Email.`Document Test`.Unit {
 
     @Test
     func `carries the preheader and the email reset`() throws {
-        let html = try Email.`Document Test`.render()
+        let html = try `Email Tests`.`Document Test`.render()
 
         #expect(html.contains("Verify your email address"))
         #expect(html.contains("-webkit-text-size-adjust"))
@@ -77,7 +79,7 @@ extension Email.`Document Test`.Unit {
 
     @Test
     func `wraps content in a presentation-role table`() throws {
-        let html = try Email.`Document Test`.render()
+        let html = try `Email Tests`.`Document Test`.render()
 
         #expect(html.contains(#"role="presentation""#))
         #expect(html.contains("<table"))
@@ -86,10 +88,10 @@ extension Email.`Document Test`.Unit {
     }
 }
 
-extension Email.`Document Test`.Integration {
+extension `Email Tests`.`Document Test`.Integration {
     @Test
     func `renders the call to action as an anchor, not a button`() throws {
-        let html = try Email.`Document Test`.render()
+        let html = try `Email Tests`.`Document Test`.render()
 
         #expect(html.contains("https://example.com/verify"))
         #expect(!html.contains("<button"))
@@ -97,7 +99,7 @@ extension Email.`Document Test`.Integration {
 
     @Test
     func `email configuration forces important on hoisted declarations`() throws {
-        let html = try Email.`Document Test`.render()
+        let html = try `Email Tests`.`Document Test`.render()
 
         #expect(html.contains("!important"))
     }

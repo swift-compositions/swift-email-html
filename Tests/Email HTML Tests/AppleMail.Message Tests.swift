@@ -8,7 +8,9 @@ extension RFC_5322.DateTime {
     static let test = Self(secondsSinceEpoch: 1_234_567_890)
 }
 
-extension AppleMail.Message {
+enum `AppleMail.Message Tests` {}
+
+extension `AppleMail.Message Tests` {
     @Suite
     struct Test {
         @Suite struct Unit {}
@@ -17,7 +19,7 @@ extension AppleMail.Message {
     }
 }
 
-extension AppleMail.Message.Test.Unit {
+extension `AppleMail.Message Tests`.Test.Unit {
     @Test
     func `message from a simple email carries RFC 5322 and Apple headers`() throws {
         let email = try Email(
@@ -68,7 +70,7 @@ extension AppleMail.Message.Test.Unit {
     }
 }
 
-extension AppleMail.Message.Test.`Edge Case` {
+extension `AppleMail.Message Tests`.Test.`Edge Case` {
     @Test
     func `blind-carbon-copy recipients never render into the message`() throws {
         let email = try Email(
@@ -85,7 +87,7 @@ extension AppleMail.Message.Test.`Edge Case` {
     }
 }
 
-extension AppleMail.Message.Test.Integration {
+extension `AppleMail.Message Tests`.Test.Integration {
     @Test
     func `HTML content renders with the text-html content type`() throws {
         let email = try Email(
