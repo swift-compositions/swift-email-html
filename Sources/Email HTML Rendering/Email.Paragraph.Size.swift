@@ -11,7 +11,7 @@
 
             case small
 
-            public var font: CSS_Theming.Font {
+            public var font: CSS_Theming::Font {
                 switch self {
                 case .regular: .body
                 case .small: .footnote

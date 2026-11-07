@@ -9,7 +9,7 @@
             public let size: Size
             public let content: Content
 
-            var _font: CSS_Theming.Font?
+            var _font: CSS_Theming::Font?
             var _color: DarkModeColor?
             var _paddingBottom: Email.Spacing?
 
@@ -21,7 +21,7 @@
                 self.content = content()
             }
 
-            public func font(_ font: CSS_Theming.Font) -> Self {
+            public func font(_ font: CSS_Theming::Font) -> Self {
                 var copy = self
                 copy._font = font
                 return copy
